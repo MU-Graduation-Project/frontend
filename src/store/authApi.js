@@ -29,9 +29,46 @@ export const authApi = apiSlice.injectEndpoints({
         url: "/auth/refresh",
         method: "POST"
       })
+    }),
+    verifyEmail: builder.mutation({
+      query: (data) => ({
+        url: "/auth/verify-email",
+        method: "POST",
+        body: data
+      })
+    }),
+    resendVerification: builder.mutation({
+      query: (data) => ({
+        url: "/auth/resend-verification",
+        method: "POST",
+        body: data
+      })
+    }),
+    forgotPassword: builder.mutation({
+      query: (data) => ({
+        url: "/auth/forgot-password",
+        method: "POST",
+        body: data
+      })
+    }),
+    resetPassword: builder.mutation({
+      query: (data) => ({
+        url: "/auth/reset-password",
+        method: "POST",
+        body: data
+      })
+    }),
+    ChangePassword: builder.mutation({
+      query: (data) => ({
+        url: "/auth/change-password",
+        method: "POST",
+        body: data
+      })
     })
   })
 });
 
-export const { useRegisterMutation, useLoginMutation, useLogoutMutation,useCheckAuthQuery } =
+export const { useRegisterMutation, useLoginMutation, useLogoutMutation, useCheckAuthQuery, useVerifyEmailMutation, useResendVerificationMutation
+  ,useForgotPasswordMutation,useResetPasswordMutation,useChangePasswordMutation
+ } =
   authApi;

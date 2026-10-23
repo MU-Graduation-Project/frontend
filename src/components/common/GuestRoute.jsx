@@ -7,8 +7,7 @@ const GuestRoute = ({ isAuthenticated, children, isLoading, user }) => {
 
   if (isAuthenticated) {
     const roles = user?.roles || [];
-console.log("GuestRoute user:", user);
-console.log("GuestRoute roles:", roles);
+
     if (roles.includes("ADMIN")) {
       return <Navigate to="/admin/profile" replace />;
     }

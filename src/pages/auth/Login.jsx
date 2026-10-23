@@ -1,6 +1,6 @@
 
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,7 +12,7 @@ import { loginSchema } from "../../validation/authSchemas";
 function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const location = useLocation();
   const [login, { isLoading }] = useLoginMutation();
 
   const {
@@ -22,22 +22,23 @@ function Login() {
   } = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: "",
+      email: location.state?.email || "",
       password: ""
     }
   });
 
   const onSubmit = async (formData) => {
-    console.log("LOGIN SUBMITTED", formData);
+ 
     try {
       const response = await login(formData).unwrap();
-      console.log("LOGIN RESPONSE:", response);
+     toast.success("Welcome")
 
       if (!response?.user || !response?.tokens?.accessToken) {
-        console.log("Invalid login response:", response);
+        // console.log("Invalid login response:", response);
+        toast.error(response)
         return;
       }
-      // const user = response.user;
+   
 
       dispatch(
         setCredentials({
@@ -87,7 +88,9 @@ function Login() {
         <button type="submit" disabled={isLoading}>
           {isLoading ? "Logging in..." : "Login"}
         </button>
-
+        <br/>
+        <Link to="/auth/forgot-password">forgot password?</Link>
+        <br/>
         <Link to="/auth/register">No account?</Link>
       </form>
     </div>

@@ -1,14 +1,14 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 
 import { useRegisterMutation } from "../../store/authApi";
-import { setCredentials } from "../../store/authSlice";
+// import { setCredentials } from "../../store/authSlice";
 import { registerSchema } from "../../validation/authSchemas";
 import { toast } from "react-toastify";
 function Register() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [registerUser, { isLoading }] = useRegisterMutation();
@@ -26,30 +26,42 @@ function Register() {
       password: ""
     }
   });
+const onSubmit = async (formData) => {
+  try {
+    await registerUser(formData).unwrap();
 
-  const onSubmit = async (formData) => {
-    try {
-      const response = await registerUser(formData).unwrap();
+    navigate("/auth/verify-email", {
+      state: { email: formData.email }
+    });
+  } catch (error) {
+    toast.error(
+      error?.data?.message || "Registration failed. Please try again."
+    );
+  }
+};
+  // const onSubmit = async (formData) => {
+  //   try {
+  //     const response = await registerUser(formData).unwrap();
 
-      if (response?.user && response?.tokens?.accessToken) {
-        dispatch(
-          setCredentials({
-            user: response.user,
-            accessToken: response.tokens.accessToken,
-            refreshToken: response.tokens.refreshToken
-          })
-        );
+  //     if (response?.user && response?.tokens?.accessToken) {
+  //       dispatch(
+  //         setCredentials({
+  //           user: response.user,
+  //           accessToken: response.tokens.accessToken,
+  //           refreshToken: response.tokens.refreshToken
+  //         })
+  //       );
 
-        navigate("/");
-      } else {
-        navigate("/auth/login");
-      }
-    } catch (error) {
-      toast.error(
-        error?.data?.message || "Registration failed. Please try again."
-      );
-    }
-  };
+  //       navigate("/");
+  //     } else {
+  //       navigate("/auth/login");
+  //     }
+  //   } catch (error) {
+  //     toast.error(
+  //       error?.data?.message || "Registration failed. Please try again."
+  //     );
+  //   }
+  // };
 
   return (
     <div>

@@ -30,3 +30,29 @@ export const registerSchema = z.object({
   firstName: z.string().optional(),
   lastName: z.string().optional()
 });
+
+export const forgotPasswordSchema = z.object({
+  email: emailSchema
+});
+
+export const resetPasswordSchema = z
+  .object({
+    email: emailSchema,
+    otp: z.string().trim().min(1, "OTP is required"),
+    password: registerPasswordSchema,
+    confirmPassword: z.string().min(1, "Please confirm your password")
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"]
+  });
+
+export const verifyEmailSchema = z.object({
+  email: emailSchema,
+  otp: z.string().trim().min(1, "OTP is required")
+});
+export const changePasswordSchema = z.object({
+  password: loginPasswordSchema,
+
+  newPassword: registerPasswordSchema
+});
