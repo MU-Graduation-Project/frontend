@@ -69,30 +69,55 @@ const onSubmit = async (formData) => {
       <p>Create your account</p>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <label htmlFor="firstName">First name</label>
-          <input id="firstName" {...register("firstName")} required />
+        <div className="my-2">
+          <label htmlFor="firstName" className="me-2">
+            First name
+          </label>
+          <input
+            id="firstName"
+            {...register("firstName")}
+            className="border rounded-2xl"
+            required
+          />
           {errors.firstName && <p>{errors.firstName.message}</p>}
         </div>
 
-        <div>
-          <label htmlFor="lastName">Last name</label>
-          <input id="lastName" {...register("lastName")} required />
+        <div className="my-2">
+          <label htmlFor="lastName" className="me-2">
+            Last name
+          </label>
+          <input
+            id="lastName"
+            {...register("lastName")}
+            className="border rounded-2xl"
+            required
+          />
           {errors.lastName && <p>{errors.lastName.message}</p>}
         </div>
 
-        <div>
-          <label htmlFor="email">Email</label>
-          <input id="email" type="email" {...register("email")} required />
+        <div className="my-2">
+          <label htmlFor="email" className="me-2">
+            Email
+          </label>
+          <input
+            id="email"
+            type="email"
+            {...register("email")}
+            className="border rounded-2xl"
+            required
+          />
           {errors.email && <p>{errors.email.message}</p>}
         </div>
 
-        <div>
-          <label htmlFor="password">Password</label>
+        <div className="my-2">
+          <label htmlFor="password" className="me-2">
+            Password
+          </label>
           <input
             id="password"
             type="password"
             {...register("password")}
+            className="border rounded-2xl"
             required
           />
           {errors.password && <p>{errors.password.message}</p>}
@@ -101,7 +126,7 @@ const onSubmit = async (formData) => {
         <button type="submit" disabled={isLoading}>
           {isLoading ? "Registering..." : "Register"}
         </button>
-
+        <br />
         <Link to="/auth/login">Already have an account?</Link>
       </form>
     </div>

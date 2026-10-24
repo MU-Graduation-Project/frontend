@@ -45,13 +45,14 @@ function ForgotPassword() {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email" className="me-2">Email</label>
 
           <input
             id="email"
             type="email"
             placeholder="Enter your email"
             {...register("email")}
+            className="border rounded-2xl"
           />
 
           {errors.email && <p>{errors.email.message}</p>}

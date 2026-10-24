@@ -64,23 +64,25 @@ function Login() {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email" className="me-2">Email</label>
           <input
             id="email"
             type="email"
             placeholder="Enter your email"
             {...register("email")}
+            className="border rounded-2xl"
           />
           {errors.email && <p>{errors.email.message}</p>}
         </div>
 
         <div>
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password" className="me-2">Password</label>
           <input
             id="password"
             type="password"
             placeholder="Enter your password"
             {...register("password")}
+            className="border rounded-2xl"
           />
           {errors.password && <p>{errors.password.message}</p>}
         </div>
@@ -88,9 +90,9 @@ function Login() {
         <button type="submit" disabled={isLoading}>
           {isLoading ? "Logging in..." : "Login"}
         </button>
-        <br/>
+        <br />
         <Link to="/auth/forgot-password">forgot password?</Link>
-        <br/>
+        <br />
         <Link to="/auth/register">No account?</Link>
       </form>
     </div>

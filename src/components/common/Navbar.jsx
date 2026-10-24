@@ -23,13 +23,13 @@ const Navbar = () => {
   };
 
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between text-3xl">
       navbar
       {!isAuthenticated ? (
-        <>
+        <div className="flex gap-2">
           <NavLink to="/auth/register">Register</NavLink>
           <NavLink to="/auth/login">Login</NavLink>
-        </>
+        </div>
       ) : (
         <button onClick={handleLogout} disabled={isLoading} className="text-red-500">
           {isLoading ? "Logging out..." : "Logout"}

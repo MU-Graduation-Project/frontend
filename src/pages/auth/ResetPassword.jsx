@@ -66,7 +66,7 @@ function ResetPassword() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label htmlFor="email">Email</label>
-          <input id="email" type="email" readOnly {...register("email")} />
+          <input id="email" type="email" readOnly {...register("email")}  className="me-2"/>
           {errors.email && <p>{errors.email.message}</p>}
         </div>
 
@@ -77,6 +77,7 @@ function ResetPassword() {
             type="text"
             placeholder="Enter OTP"
             {...register("otp")}
+            className="border rounded-2xl"
           />
           {errors.otp && <p>{errors.otp.message}</p>}
         </div>

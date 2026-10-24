@@ -79,6 +79,7 @@ function VerifyEmail() {
             type="email"
             placeholder="Enter your email"
             {...register("email")}
+            className="border rounded-2xl"
           />
 
           {errors.email && <p>{errors.email.message}</p>}
