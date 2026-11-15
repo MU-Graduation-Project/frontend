@@ -56,7 +56,7 @@ function App() {
   return (
     <div className="app">
       <ToastContainer />
-      <div className="flex flex-col min-h-screen overflow-hidden">
+      <div className="flex  min-h-screen overflow-hidden justify-center ">
         <Suspense fallback={<div className="p-6">Loading...</div>}>
           <Routes>
             {/* Home */}
