@@ -19,8 +19,13 @@ const GuestRoute = ({ isAuthenticated, children, isLoading, user }) => {
     if (roles.includes("SERVICE_PROVIDER")) {
       return <Navigate to="/partner/profile" replace />;
     }
+       if (roles.includes("EVENT_GOER")) {
+         return <Navigate to="/user/profile" replace />;
+       }
+    
 
-    return <Navigate to="/user/profile" replace />;
+
+   
   }
 
   return children;

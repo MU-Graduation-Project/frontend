@@ -77,7 +77,7 @@ const Navbar = () => {
           <button
             onClick={handleLogout}
             disabled={isLoading}
-            className="text-red-500"
+            className="text-white p-2 rounded-3xl bg-primary"
           >
             {isLoading ? "Logging out..." : "Logout"}
           </button>

@@ -11,6 +11,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
+
 const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/auth/Login"));
 const Register = lazy(() => import("./pages/auth/Register"));
@@ -29,6 +30,10 @@ const AdminProfile = lazy(() => import("./pages/adminPages/AdminProfile"));
 
 const EventPlan = lazy(() => import("./pages/organizerPages/EventPlan"));
 const UnAuth = lazy(() => import("./pages/UnAuth"));
+const Choice = lazy(() => import("./pages/auth/Choice"));
+const CompleteProfileEventGoer = lazy(() => import("./pages/auth/CompleteProfileEventGoer"));
+const Recommendations = lazy(() => import("./pages/userPages/Recommendations"));
+const EventDetails = lazy(() => import("./pages/userPages/EventDetails"));
 function App() {
   const dispatch = useDispatch();
   const { data, isLoading, isFetching } = useCheckAuthQuery();
@@ -85,8 +90,13 @@ function App() {
                 path="/auth/forgot-password"
                 element={<ForgotPassword />}
               />
-
               <Route path="/auth/reset-password" element={<ResetPassword />} />
+              <Route path="/auth/reset-password" element={<ResetPassword />} />
+              <Route path="/auth/choice" element={<Choice />} />
+              <Route
+                path="/auth/completeEventGoerProfile"
+                element={<CompleteProfileEventGoer />}
+              />
             </Route>
 
             {/* User */}
@@ -103,6 +113,8 @@ function App() {
               }
             >
               <Route path="profile" element={<UserProfile />} />
+              <Route path="recommendations" element={<Recommendations />} />
+              <Route path="event-details/:id" element={<EventDetails />} />
               <Route path="change-password" element={<ChangePassword />} />
             </Route>
 

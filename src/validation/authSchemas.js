@@ -38,7 +38,10 @@ export const forgotPasswordSchema = z.object({
 export const resetPasswordSchema = z
   .object({
     email: emailSchema,
-    otp: z.string().trim().min(1, "OTP is required"),
+ otp: z
+  .string()
+  .trim()
+  .length(6, "OTP must be 6 characters"),
     password: registerPasswordSchema,
     confirmPassword: z.string().min(1, "Please confirm your password")
   })
@@ -55,4 +58,14 @@ export const changePasswordSchema = z.object({
   password: loginPasswordSchema,
 
   newPassword: registerPasswordSchema
+});
+export const completeEventGoerSchema = z.object({
+  city: z
+    .string()
+    .min(1, "City is required")
+    .max(100, "City must not exceed 100 characters"),
+
+  interests: z.array(z.string()).min(1, "Please select at least one interest"),
+
+  otherInterest: z.string().optional()
 });

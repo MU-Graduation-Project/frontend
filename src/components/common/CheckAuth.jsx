@@ -39,6 +39,12 @@ const CheckAuth = ({ isAuthenticated, user, children, isLoading }) => {
   ) {
     return <Navigate to="/unauthorized" replace />;
   }
+    if (
+      pathname.startsWith("/user") &&
+      !userRoles.includes("EVENT_GOER")
+    ) {
+      return <Navigate to="/unauthorized" replace />;
+    }
 
   return children;
 };
