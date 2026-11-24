@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import CheckAuth from "./components/common/CheckAuth";
 import AuthLayout from "./layouts/AuthLayout";
@@ -17,6 +17,9 @@ const Register = lazy(() => import("./pages/auth/Register"));
 const VerifyEmail = lazy(() => import("./pages/auth/VerifyEmail"));
 const ForgotPassword = lazy(() => import("./pages/auth/ForgotPassword"));
 const ResetPassword = lazy(() => import("./pages/auth/ResetPassword"));
+const ServiceProviderOnboarding = lazy(
+  () => import("./pages/auth/ServiceProviderOnboarding")
+);
 const UserProfile = lazy(() => import("./pages/userPages/UserProfile"));
 const ChangePassword = lazy(() => import("./pages/userPages/ChangePassword"));
 const OrganizerProfile = lazy(
@@ -25,7 +28,13 @@ const OrganizerProfile = lazy(
 const PartnerProfile = lazy(
   () => import("./pages/partnerPages/PartnerProfile")
 );
+const PartnerStatus = lazy(
+  () => import("./pages/partnerPages/PartnerStatus")
+);
 const AdminProfile = lazy(() => import("./pages/adminPages/AdminProfile"));
+const AdminServiceProviders = lazy(
+  () => import("./pages/adminPages/AdminServiceProviders")
+);
 
 const EventPlan = lazy(() => import("./pages/organizerPages/EventPlan"));
 const UnAuth = lazy(() => import("./pages/UnAuth"));
@@ -33,8 +42,6 @@ function App() {
   const dispatch = useDispatch();
   const { data, isLoading, isFetching } = useCheckAuthQuery();
   const { isAuthenticated, user } = useSelector((state) => state.auth);
-
-  const [isAuthChecked, setIsAuthChecked] = useState(false);
 
   useEffect(() => {
     if (!isLoading && !isFetching) {
@@ -46,12 +53,10 @@ function App() {
           })
         );
       }
-
-      setIsAuthChecked(true);
     }
   }, [data, isLoading, isFetching, dispatch]);
 
-  const authLoading = isLoading || isFetching || !isAuthChecked;
+  const authLoading = isLoading || isFetching;
 
   return (
     <div className="app">
@@ -89,6 +94,24 @@ function App() {
               <Route path="/auth/reset-password" element={<ResetPassword />} />
             </Route>
 
+            {/* Service Provider Onboarding (Organized alongside Auth, Protected for Authenticated USER) */}
+            <Route
+              element={
+                <CheckAuth
+                  isAuthenticated={isAuthenticated}
+                  user={user}
+                  isLoading={authLoading}
+                >
+                  <MainLayout />
+                </CheckAuth>
+              }
+            >
+              <Route
+                path="/user/become-partner"
+                element={<ServiceProviderOnboarding />}
+              />
+            </Route>
+
             {/* User */}
             <Route
               path="/user"
@@ -104,6 +127,7 @@ function App() {
             >
               <Route path="profile" element={<UserProfile />} />
               <Route path="change-password" element={<ChangePassword />} />
+              <Route path="partner-pending" element={<PartnerStatus />} />
             </Route>
 
             {/* Organizer */}
@@ -153,6 +177,7 @@ function App() {
               }
             >
               <Route path="profile" element={<AdminProfile />} />
+              <Route path="service-providers" element={<AdminServiceProviders />} />
             </Route>
           </Routes>
         </Suspense>
