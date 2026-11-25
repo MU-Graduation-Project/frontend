@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import CheckAuth from "./components/common/CheckAuth";
 import AuthLayout from "./layouts/AuthLayout";
@@ -18,6 +18,9 @@ const Register = lazy(() => import("./pages/auth/Register"));
 const VerifyEmail = lazy(() => import("./pages/auth/VerifyEmail"));
 const ForgotPassword = lazy(() => import("./pages/auth/ForgotPassword"));
 const ResetPassword = lazy(() => import("./pages/auth/ResetPassword"));
+const ServiceProviderOnboarding = lazy(
+  () => import("./pages/auth/ServiceProviderOnboarding")
+);
 const UserProfile = lazy(() => import("./pages/userPages/UserProfile"));
 const ChangePassword = lazy(() => import("./pages/userPages/ChangePassword"));
 const OrganizerProfile = lazy(
@@ -26,7 +29,13 @@ const OrganizerProfile = lazy(
 const PartnerProfile = lazy(
   () => import("./pages/partnerPages/PartnerProfile")
 );
+const PartnerStatus = lazy(
+  () => import("./pages/partnerPages/PartnerStatus")
+);
 const AdminProfile = lazy(() => import("./pages/adminPages/AdminProfile"));
+const AdminServiceProviders = lazy(
+  () => import("./pages/adminPages/AdminServiceProviders")
+);
 
 const EventPlan = lazy(() => import("./pages/organizerPages/EventPlan"));
 const UnAuth = lazy(() => import("./pages/UnAuth"));
@@ -39,8 +48,6 @@ function App() {
   const { data, isLoading, isFetching } = useCheckAuthQuery();
   const { isAuthenticated, user } = useSelector((state) => state.auth);
 
-  const [isAuthChecked, setIsAuthChecked] = useState(false);
-
   useEffect(() => {
     if (!isLoading && !isFetching) {
       if (data?.user && data?.tokens?.accessToken) {
@@ -51,12 +58,10 @@ function App() {
           })
         );
       }
-
-      setIsAuthChecked(true);
     }
   }, [data, isLoading, isFetching, dispatch]);
 
-  const authLoading = isLoading || isFetching || !isAuthChecked;
+  const authLoading = isLoading || isFetching;
 
   return (
     <div className="app">
@@ -97,7 +102,30 @@ function App() {
                 path="/auth/completeEventGoerProfile"
                 element={<CompleteProfileEventGoer />}
               />
+              <Route
+                path="/auth/become-partner"
+                element={<ServiceProviderOnboarding />}
+              />
+          
             </Route>
+
+            {/* Service Provider Onboarding (Organized alongside Auth, Protected for Authenticated USER) */}
+            {/* <Route
+              element={
+                <CheckAuth
+                  isAuthenticated={isAuthenticated}
+                  user={user}
+                  isLoading={authLoading}
+                >
+                  <MainLayout />
+                </CheckAuth>
+              }
+            >
+              <Route
+                path="/user/become-partner"
+                element={<ServiceProviderOnboarding />}
+              />
+            </Route> */}
 
             {/* User */}
             <Route
@@ -116,6 +144,11 @@ function App() {
               <Route path="recommendations" element={<Recommendations />} />
               <Route path="event-details/:id" element={<EventDetails />} />
               <Route path="change-password" element={<ChangePassword />} />
+              <Route path="partner-pending" element={<PartnerStatus />} />
+              <Route
+                path="become-partner"
+                element={<ServiceProviderOnboarding />}
+              />
             </Route>
 
             {/* Organizer */}
@@ -165,6 +198,10 @@ function App() {
               }
             >
               <Route path="profile" element={<AdminProfile />} />
+              <Route
+                path="service-providers"
+                element={<AdminServiceProviders />}
+              />
             </Route>
           </Routes>
         </Suspense>

@@ -19,7 +19,12 @@ export const apiSlice = createApi({
     }
   }),
 
-  tagTypes: ["User", "EventGoerProfile"],
+  tagTypes: [
+    "User",
+    "EventGoerProfile",
+    "ServiceProvider",
+    "AdminServiceProviders"
+  ],
 
   endpoints: () => ({})
 });

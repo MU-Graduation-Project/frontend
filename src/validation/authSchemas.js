@@ -28,7 +28,17 @@ export const registerSchema = z.object({
   password: registerPasswordSchema,
 
   firstName: z.string().optional(),
-  lastName: z.string().optional()
+  lastName: z.string().optional(),
+  confirmPassword: z.string().min(1, "Please confirm your password")
+}).superRefine((data, ctx) => {
+  if (data.password !== data.confirmPassword) {
+    ctx.addIssue({
+      code: "custom",
+      path: ["confirmPassword"],
+      message: "Passwords do not match"
+    });
+  }
+
 });
 
 export const forgotPasswordSchema = z.object({

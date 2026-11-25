@@ -73,10 +73,10 @@ export const {
   useLoginMutation,
   useLogoutMutation,
   useCheckAuthQuery,
+  useLazyCheckAuthQuery,
   useVerifyEmailMutation,
   useResendVerificationMutation,
   useForgotPasswordMutation,
   useResetPasswordMutation,
   useChangePasswordMutation,
-  useLazyCheckAuthQuery
 } = authApi;

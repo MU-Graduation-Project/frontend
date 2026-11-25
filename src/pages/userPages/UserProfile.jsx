@@ -227,6 +227,22 @@ const UserProfile = () => {
 
         <Link to="/user/change-password">Change password</Link>
       </div>
+      <div>
+        <Link
+          to="/user/become-partner"
+          className="text-primary hover:underline font-medium text-sm block"
+        >
+          → Become a Service Provider (Onboarding)
+        </Link>
+      </div>
+      <div>
+        <Link
+          to="/user/partner-pending"
+          className="text-primary hover:underline font-medium text-sm block"
+        >
+          → Service Provider Application Status
+        </Link>
+      </div>
     </div>
   );
 };

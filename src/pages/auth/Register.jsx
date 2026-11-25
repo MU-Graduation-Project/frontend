@@ -6,11 +6,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { useRegisterMutation } from "../../store/authApi";
 // import { setCredentials } from "../../store/authSlice";
 import { registerSchema } from "../../validation/authSchemas";
+import { useState } from "react";
 import { toast } from "react-toastify";
 function Register() {
-  // const dispatch = useDispatch();
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
+const [activeMode, setActiveMode] = useState("Personal");
   const [registerUser, { isLoading }] = useRegisterMutation();
 
   const {
@@ -23,13 +24,17 @@ function Register() {
       firstName: "",
       lastName: "",
       email: "",
-      password: ""
+      password: "",
+       confirmPassword: ""
     }
   });
 const onSubmit = async (formData) => {
   try {
-    await registerUser(formData).unwrap();
+    // await registerUser(formData).unwrap();
+    const { confirmPassword, ...registerData } = formData;
 
+    await registerUser(registerData).unwrap();
+sessionStorage.setItem("registrationMode", activeMode);
     navigate("/auth/verify-email", {
       state: { email: formData.email }
     });
@@ -39,65 +44,74 @@ const onSubmit = async (formData) => {
     );
   }
 };
-  // const onSubmit = async (formData) => {
-  //   try {
-  //     const response = await registerUser(formData).unwrap();
 
-  //     if (response?.user && response?.tokens?.accessToken) {
-  //       dispatch(
-  //         setCredentials({
-  //           user: response.user,
-  //           accessToken: response.tokens.accessToken,
-  //           refreshToken: response.tokens.refreshToken
-  //         })
-  //       );
-
-  //       navigate("/");
-  //     } else {
-  //       navigate("/auth/login");
-  //     }
-  //   } catch (error) {
-  //     toast.error(
-  //       error?.data?.message || "Registration failed. Please try again."
-  //     );
-  //   }
-  // };
 
   return (
     <div>
       <h1 className="text-[#E77C36] font-semibold text-3xl text-center my-3">
         Register to [Name]
       </h1>
-      <p className="text-[#7D6B60] text-center">Create your account</p>
+      <div className="flex justify-center my-2">
+        <div className="flex bg-[#FFFCFA] justify-center gap-2 shadow-lg p-2 w-[220px]  rounded-3xl">
+          <span
+            onClick={() => setActiveMode("Personal")}
+            className={`cursor-pointer px-4 py-2 rounded-3xl transition-all duration-200 font-semibold ${
+              activeMode === "Personal"
+                ? "bg-[#7E5137] text-white"
+                : "text-[#7E5137]"
+            }`}
+          >
+            Personal
+          </span>
+
+          <span
+            onClick={() => setActiveMode("Provider")}
+            className={`cursor-pointer px-4 py-2 rounded-3xl transition-all duration-200 font-semibold ${
+              activeMode === "Provider"
+                ? "bg-[#7E5137] text-white"
+                : "text-[#7E5137]"
+            }`}
+          >
+            Provider
+          </span>
+        </div>
+      </div>
+      <div className="flex justify-center">
+        <p className="text-[#7D6B60] text-center w-[290px]">
+          discover events, book tickets, and bring your own events to life.
+        </p>
+      </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="my-2 flex flex-col gap-px">
-          <label htmlFor="firstName" className="my-2 text-sm">
-            First name
-          </label>
-          <input
-            id="firstName"
-            placeholder="Enter your first name"
-            {...register("firstName")}
-            className={`border rounded-lg w-full p-2 focus:outline-none focus:border-2
+        <div className="flex gap-2">
+          <div className="my-2 flex flex-col gap-px">
+            <label htmlFor="firstName" className="my-2 text-sm">
+              First name
+            </label>
+            <input
+              id="firstName"
+              placeholder="Enter your first name"
+              {...register("firstName")}
+              className={`border rounded-lg w-full p-2 focus:outline-none focus:border-2
 ${errors.firstName ? "border-red-500 focus:border-red-500" : "border-bordergrey focus:border-lightorange"}`}
-            required
-          />
-          {errors.firstName && <p>{errors.firstName.message}</p>}
-        </div>
-        <div className="my-2 my-2 flex flex-col gap-px">
-          <label htmlFor="lastName" className="my-2 text-sm">
-            Last name
-          </label>
-          <input
-            id="lastName"
-            placeholder="Enter your last name"
-            {...register("lastName")}
-            className={`border rounded-lg w-full p-2 focus:outline-none focus:border-2
+              required
+            />
+            {errors.firstName && <p>{errors.firstName.message}</p>}
+          </div>
+          <div className="my-2 my-2 flex flex-col gap-px">
+            <label htmlFor="lastName" className="my-2 text-sm">
+              Last name
+            </label>
+            <input
+              id="lastName"
+              placeholder="Enter your last name"
+              {...register("lastName")}
+              className={`border rounded-lg w-full p-2 focus:outline-none focus:border-2
 ${errors.lastName ? "border-red-500 focus:border-red-500" : "border-bordergrey focus:border-lightorange"}`}
-            required
-          />
-          {errors.lastName && <p>{errors.lastName.message}</p>}
+              required
+            />
+            {errors.lastName && <p>{errors.lastName.message}</p>}
+          </div>
         </div>
         <div className="my-2 flex flex-col gap-px">
           <label htmlFor="email" className="my-2 text-sm">
@@ -128,6 +142,26 @@ ${errors.password ? "border-red-500 focus:border-red-500" : "border-bordergrey f
             required
           />
           {errors.password && <p>{errors.password.message}</p>}
+        </div>
+        <div className="my-2 flex flex-col gap-px">
+          <label htmlFor="confirmPassword" className="my-2 text-sm">
+            Confirm Password
+          </label>
+
+          <input
+            id="confirmPassword"
+            type="password"
+            placeholder="Confirm your password"
+            {...register("confirmPassword")}
+            className={`border rounded-lg w-full p-2 focus:outline-none focus:border-2
+    ${errors.confirmPassword ? "border-red-500 focus:border-red-500" : "border-bordergrey focus:border-lightorange"}`}
+          />
+
+          {errors.confirmPassword && (
+            <p className="text-red-500 text-sm">
+              {errors.confirmPassword.message}
+            </p>
+          )}
         </div>
         <button
           type="submit"

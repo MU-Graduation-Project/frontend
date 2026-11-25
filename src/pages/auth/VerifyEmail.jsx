@@ -58,7 +58,16 @@ const otpRefs = useRef([]);
                 refreshToken: response.tokens.refreshToken
               })
             );
-            navigate("/auth/choice");
+      // navigate("/auth/choice");
+      const mode = sessionStorage.getItem("registrationMode");
+
+      sessionStorage.removeItem("registrationMode");
+
+      if (mode === "Provider") {
+        navigate("/auth/become-partner", { replace: true });
+      } else {
+        navigate("../completeEventGoerProfile", { replace: true });
+      }
     } catch (error) {
       toast.error(error?.data?.message || "Email verification failed.");
     }
