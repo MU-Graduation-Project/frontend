@@ -1,11 +1,11 @@
 import { apiSlice } from "./mainApiSlice";
 
-export const authApi = apiSlice.injectEndpoints({
+export const userApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     CompleteEventGoerProfile: builder.mutation({
       query: (userData) => ({
-        url: "/event-goers/onboard",
-        method: "POST",
+        url: "/users/me",
+        method: "PATCH",
         body: userData
       })
     }),
@@ -20,22 +20,16 @@ export const authApi = apiSlice.injectEndpoints({
       query: () => ({
         url: "/users/me",
         method: "GET"
-      })
-    }),
-    GetMyProfile: builder.query({
-      query: () => ({
-        url: "/event-goers/me",
-        method: "GET"
       }),
-      providesTags: ["EventGoerProfile"]
+      providesTags: ["UserProfile"]
     }),
     EditMyProfile: builder.mutation({
       query: (userData) => ({
-        url: "/event-goers/me",
+        url: "/users/me",
         method: "PATCH",
         body: userData
       }),
-      invalidatesTags: ["EventGoerProfile"]
+      invalidatesTags: ["UserProfile"]
     }),
     GetEventsRecommndations: builder.query({
       query: () => ({
@@ -52,5 +46,5 @@ export const authApi = apiSlice.injectEndpoints({
   })
 });
 
-export const {useCompleteEventGoerProfileMutation,useGetInterestsQuery,useGetMyProfileQuery,useEditMyProfileMutation,useGetMyUserDataQuery,useGetEventsRecommndationsQuery,useGetEventDetailsQuery } =
-  authApi;
+export const {useCompleteEventGoerProfileMutation,useGetInterestsQuery,useGetMyUserDataQuery,useEditMyProfileMutation,useGetEventsRecommndationsQuery,useGetEventDetailsQuery } =
+  userApi;

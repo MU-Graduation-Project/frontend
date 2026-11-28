@@ -29,9 +29,9 @@ const CheckAuth = ({ isAuthenticated, user, children, isLoading }) => {
     return <Navigate to="/unauthorized" replace />;
   }
 
-  if (pathname.startsWith("/organizer") && !userRoles.includes("ORGANIZER")) {
-    return <Navigate to="/unauthorized" replace />;
-  }
+  // if (pathname.startsWith("/organizer") && !userRoles.includes("ORGANIZER")) {
+  //   return <Navigate to="/unauthorized" replace />;
+  // }
 
   if (
     pathname.startsWith("/partner") &&
@@ -41,7 +41,7 @@ const CheckAuth = ({ isAuthenticated, user, children, isLoading }) => {
   }
     if (
       pathname.startsWith("/user") &&
-      !userRoles.includes("EVENT_GOER")
+      !userRoles.includes("USER")
     ) {
       return <Navigate to="/unauthorized" replace />;
     }

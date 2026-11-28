@@ -21,7 +21,7 @@ export const apiSlice = createApi({
 
   tagTypes: [
     "User",
-    "EventGoerProfile",
+    "UserProfile",
     "ServiceProvider",
     "AdminServiceProviders"
   ],

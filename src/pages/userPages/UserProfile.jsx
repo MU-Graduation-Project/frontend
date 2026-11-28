@@ -3,10 +3,9 @@ import Navbar from "../../components/common/Navbar";
 import { Link } from "react-router-dom";
 import {
   useEditMyProfileMutation,
-  useGetMyProfileQuery,
   useGetMyUserDataQuery,
   useGetInterestsQuery
-} from "../../store/eventGoerApi";
+} from "../../store/userApi";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,8 +14,8 @@ import { completeEventGoerSchema } from "../../validation/authSchemas";
 const UserProfile = () => {
   const { data: userData, isLoading: userLoading } = useGetMyUserDataQuery();
 
-  const { data: profileData, isLoading: profileLoading } =
-    useGetMyProfileQuery();
+  // const { data: profileData, isLoading: profileLoading } =
+  //   useGetMyProfileQuery();
 
   const [editMyProfile, { isLoading: isEditing }] = useEditMyProfileMutation();
 
@@ -33,8 +32,8 @@ const UserProfile = () => {
   } = useForm({
     resolver: zodResolver(completeEventGoerSchema),
     values: {
-      city: profileData?.city || "",
-      interests: profileData?.interests?.map((item) => item.name) || [],
+      city: userData?.city || "",
+      interests: userData?.interests?.map((item) => item.name) || [],
       otherInterest: ""
     }
   });
@@ -84,8 +83,8 @@ const UserProfile = () => {
 
   const cancelEdit = () => {
     reset({
-      city: profileData?.city || "",
-      interests: profileData?.interests?.map((item) => item.name) || [],
+      city: userData?.city || "",
+      interests: userData?.interests?.map((item) => item.name) || [],
       otherInterest: ""
     });
 
@@ -93,7 +92,7 @@ const UserProfile = () => {
     setIsEditingProfile(false);
   };
 
-  if (userLoading || profileLoading) {
+  if (userLoading || userLoading) {
     return <p>Loading...</p>;
   }
 
@@ -117,10 +116,10 @@ const UserProfile = () => {
 
           {!isEditingProfile ? (
             <>
-              <p>City: {profileData?.city}</p>
+              <p>City: {userData?.city}</p>
 
               <p>Interests:</p>
-              {profileData?.interests?.map((item) => (
+              {userData?.interests?.map((item) => (
                 <p key={item.id}>{item.name}</p>
               ))}
 

@@ -1,5 +1,5 @@
 import Navbar from "../../components/common/Navbar"
-import { useGetEventsRecommndationsQuery } from "../../store/eventGoerApi";
+import { useGetEventsRecommndationsQuery } from "../../store/userApi";
 import { useNavigate } from "react-router-dom";
 const Recommendations = () => {
     const { data: recommendations, isLoading } = useGetEventsRecommndationsQuery();

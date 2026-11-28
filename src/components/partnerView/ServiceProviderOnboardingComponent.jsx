@@ -4,37 +4,33 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate, Navigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import Navbar from "../../components/common/Navbar";
 import {
   useGetServiceCategoriesQuery,
   useGetEventTypesQuery,
   useOnboardServiceProviderMutation,
-  useGetMyServiceProviderProfileQuery,
+  useGetMyServiceProviderProfileQuery
 } from "../../store/serviceProviderApi";
 import { createServiceProviderSchema } from "../../validation/serviceProviderSchemas";
-import { useSelector } from "react-redux";
-const ServiceProviderOnboarding = () => {
+// import { useSelector } from "react-redux";
+const ServiceProviderOnboardingComponent = () => {
   const navigate = useNavigate();
   const [areaInput, setAreaInput] = useState("");
-const { isAuthenticated, user } = useSelector((state) => state.auth);
+//   const { isAuthenticated, user } = useSelector((state) => state.auth);
 
-const showNavbar = isAuthenticated && user?.role === "EventGoer";
   const {
     data: categories = [],
     isLoading: loadingCategories,
-    error: categoriesError,
+    error: categoriesError
   } = useGetServiceCategoriesQuery();
 
   const {
     data: eventTypes = [],
     isLoading: loadingEventTypes,
-    error: eventTypesError,
+    error: eventTypesError
   } = useGetEventTypesQuery();
 
-  const {
-    data: existingProfile,
-    isLoading: checkingProfile,
-  } = useGetMyServiceProviderProfileQuery();
+  const { data: existingProfile, isLoading: checkingProfile } =
+    useGetMyServiceProviderProfileQuery();
 
   const [onboardServiceProvider, { isLoading: isSubmitting }] =
     useOnboardServiceProviderMutation();
@@ -44,7 +40,7 @@ const showNavbar = isAuthenticated && user?.role === "EventGoer";
     handleSubmit,
     setValue,
     watch,
-    formState: { errors },
+    formState: { errors }
   } = useForm({
     resolver: zodResolver(createServiceProviderSchema),
     defaultValues: {
@@ -55,8 +51,8 @@ const showNavbar = isAuthenticated && user?.role === "EventGoer";
       description: "",
       city: "",
       areasServed: [],
-      eventTypesServed: [],
-    },
+      eventTypesServed: []
+    }
   });
 
   const selectedAreas = watch("areasServed") || [];
@@ -75,7 +71,7 @@ const showNavbar = isAuthenticated && user?.role === "EventGoer";
       return;
     }
     setValue("areasServed", [...selectedAreas, trimmed], {
-      shouldValidate: true,
+      shouldValidate: true
     });
     setAreaInput("");
   };
@@ -97,7 +93,7 @@ const showNavbar = isAuthenticated && user?.role === "EventGoer";
       );
     } else {
       setValue("eventTypesServed", [...selectedEventTypes, id], {
-        shouldValidate: true,
+        shouldValidate: true
       });
     }
   };
@@ -106,7 +102,7 @@ const showNavbar = isAuthenticated && user?.role === "EventGoer";
     try {
       const payload = {
         ...data,
-        logoUrl: data.logoUrl?.trim() ? data.logoUrl.trim() : undefined,
+        logoUrl: data.logoUrl?.trim() ? data.logoUrl.trim() : undefined
       };
 
       await onboardServiceProvider(payload).unwrap();
@@ -123,7 +119,6 @@ const showNavbar = isAuthenticated && user?.role === "EventGoer";
   if (checkingProfile) {
     return (
       <div>
-        {showNavbar && <Navbar />}
         <div className="p-6">Checking provider application status...</div>
       </div>
     );
@@ -136,7 +131,6 @@ const showNavbar = isAuthenticated && user?.role === "EventGoer";
 
   return (
     <div>
-      {showNavbar && <Navbar />}
 
       <main className="max-w-2xl mx-auto my-8 p-6 border rounded-lg bg-white">
         <h1 className="text-2xl font-bold mb-2">Service Provider Onboarding</h1>
@@ -393,4 +387,4 @@ const showNavbar = isAuthenticated && user?.role === "EventGoer";
   );
 };
 
-export default ServiceProviderOnboarding;
+export default ServiceProviderOnboardingComponent;

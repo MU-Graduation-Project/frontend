@@ -51,31 +51,7 @@ sessionStorage.setItem("registrationMode", activeMode);
       <h1 className="text-[#E77C36] font-semibold text-3xl text-center my-3">
         Register to [Name]
       </h1>
-      <div className="flex justify-center my-2">
-        <div className="flex bg-[#FFFCFA] justify-center gap-2 shadow-lg p-2 w-[220px]  rounded-3xl">
-          <span
-            onClick={() => setActiveMode("Personal")}
-            className={`cursor-pointer px-4 py-2 rounded-3xl transition-all duration-200 font-semibold ${
-              activeMode === "Personal"
-                ? "bg-[#7E5137] text-white"
-                : "text-[#7E5137]"
-            }`}
-          >
-            Personal
-          </span>
 
-          <span
-            onClick={() => setActiveMode("Provider")}
-            className={`cursor-pointer px-4 py-2 rounded-3xl transition-all duration-200 font-semibold ${
-              activeMode === "Provider"
-                ? "bg-[#7E5137] text-white"
-                : "text-[#7E5137]"
-            }`}
-          >
-            Provider
-          </span>
-        </div>
-      </div>
       <div className="flex justify-center">
         <p className="text-[#7D6B60] text-center w-[290px]">
           discover events, book tickets, and bring your own events to life.
@@ -162,6 +138,43 @@ ${errors.password ? "border-red-500 focus:border-red-500" : "border-bordergrey f
               {errors.confirmPassword.message}
             </p>
           )}
+        </div>
+        <div className="mt-5">
+          <p className="text-sm text-[#4A4A4A] mb-2">Select account type</p>
+
+          <div className="flex justify-start gap-6">
+            {/* Personal */}
+            <label className="flex items-center gap-2 cursor-pointer text-[#3A3A3A] font-medium select-none">
+              <span className="relative flex items-center justify-center w-4 h-4 rounded-full border border-[#E67E35] has-[:checked]:border-[#E67E35] has-[:checked]:[&>span]:scale-100">
+                <input
+                  type="radio"
+                  name="mode"
+                  value="Personal"
+                  checked={activeMode === "Personal"}
+                  onChange={() => setActiveMode("Personal")}
+                  className="sr-only"
+                />
+                <span className="w-2 h-2 rounded-full bg-[#E67E35] scale-0 transition-transform duration-150" />
+              </span>
+              Personal
+            </label>
+
+            {/* Provider */}
+            <label className="flex items-center gap-2 cursor-pointer text-[#3A3A3A] font-medium select-none">
+              <span className="relative flex items-center justify-center w-4 h-4 rounded-full border border-[#9E938C] has-[:checked]:border-[#E67E35] has-[:checked]:[&>span]:scale-100">
+                <input
+                  type="radio"
+                  name="mode"
+                  value="Provider"
+                  checked={activeMode === "Provider"}
+                  onChange={() => setActiveMode("Provider")}
+                  className="sr-only"
+                />
+                <span className="w-2 h-2 rounded-full bg-[#E67E35] scale-0 transition-transform duration-150" />
+              </span>
+              Provider
+            </label>
+          </div>
         </div>
         <button
           type="submit"

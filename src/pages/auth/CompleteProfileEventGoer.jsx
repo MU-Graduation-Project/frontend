@@ -1,18 +1,19 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
-import { useCompleteEventGoerProfileMutation,useGetInterestsQuery } from "../../store/eventGoerApi";
+import { useCompleteEventGoerProfileMutation,useGetInterestsQuery } from "../../store/userApi";
 import { completeEventGoerSchema } from "../../validation/authSchemas";
 import { toast } from "react-toastify";
 import { useState } from "react";
-import { useLazyCheckAuthQuery } from "../../store/authApi";
-import { useDispatch } from "react-redux";
-import { setCredentials } from "../../store/authSlice";
+import { Link } from "react-router-dom";
+// import { useLazyCheckAuthQuery } from "../../store/authApi";
+// import { useDispatch } from "react-redux";
+// import { setCredentials } from "../../store/authSlice";
 
 const CompleteProfileEventGoer = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [refreshAuth] = useLazyCheckAuthQuery();
+  // const [refreshAuth] = useLazyCheckAuthQuery();
     const {
       register,
       handleSubmit,
@@ -74,22 +75,22 @@ const { data: predictions, isLoading: interestsLoading } = useGetInterestsQuery(
           //     accessToken: authData.tokens.accessToken,
           //     refreshToken: authData.tokens.refreshToken
           //   })
-          // );
-try {
-  const authData = await refreshAuth(undefined, false).unwrap();
+//           // );
+// try {
+//   const authData = await refreshAuth(undefined, false).unwrap();
 
-  if (authData?.tokens?.accessToken) {
-    dispatch(
-      setCredentials({
-        user: authData.user,
-        accessToken: authData.tokens.accessToken,
-        refreshToken: authData.tokens.refreshToken
-      })
-    );
-  }
-} catch (refreshError) {
-  console.error("Token refresh after profile completion failed:", refreshError);
-}
+//   if (authData?.tokens?.accessToken) {
+//     dispatch(
+//       setCredentials({
+//         user: authData.user,
+//         accessToken: authData.tokens.accessToken,
+//         refreshToken: authData.tokens.refreshToken
+//       })
+//     );
+//   }
+// } catch (refreshError) {
+//   console.error("Token refresh after profile completion failed:", refreshError);
+// }
       toast.success("Profile completed successfully!");
       navigate("/user/profile");
     } catch (error) {
@@ -185,6 +186,10 @@ try {
         <button type="submit" disabled={isLoading}>
           {isLoading ? "Completing your profile..." : "Complete Profile"}
         </button>
+        <br/>
+        <Link to="/user/profile">
+          Skip
+        </Link>
       </form>
     </div>
   );

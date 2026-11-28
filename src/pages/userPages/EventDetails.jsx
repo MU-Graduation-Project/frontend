@@ -1,6 +1,6 @@
 import Navbar from "../../components/common/Navbar";
 import { useParams } from "react-router-dom";
-import { useGetEventDetailsQuery } from "../../store/eventGoerApi";
+import { useGetEventDetailsQuery } from "../../store/userApi";
 
 const EventDetails = () => {
   const { id } = useParams();

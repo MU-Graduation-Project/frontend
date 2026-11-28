@@ -11,15 +11,17 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
-
 const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/auth/Login"));
 const Register = lazy(() => import("./pages/auth/Register"));
 const VerifyEmail = lazy(() => import("./pages/auth/VerifyEmail"));
 const ForgotPassword = lazy(() => import("./pages/auth/ForgotPassword"));
 const ResetPassword = lazy(() => import("./pages/auth/ResetPassword"));
-const ServiceProviderOnboarding = lazy(
-  () => import("./pages/auth/ServiceProviderOnboarding")
+const ServiceProviderOnboardingFirst = lazy(
+  () => import("./pages/auth/ServiceProviderOnboardingFirst")
+);
+const ServiceProviderOnboardingInside = lazy(
+  () => import("./pages/userPages/ServiceProviderOnboardingInside")
 );
 const UserProfile = lazy(() => import("./pages/userPages/UserProfile"));
 const ChangePassword = lazy(() => import("./pages/userPages/ChangePassword"));
@@ -29,9 +31,7 @@ const OrganizerProfile = lazy(
 const PartnerProfile = lazy(
   () => import("./pages/partnerPages/PartnerProfile")
 );
-const PartnerStatus = lazy(
-  () => import("./pages/partnerPages/PartnerStatus")
-);
+const PartnerStatus = lazy(() => import("./pages/partnerPages/PartnerStatus"));
 const AdminProfile = lazy(() => import("./pages/adminPages/AdminProfile"));
 const AdminServiceProviders = lazy(
   () => import("./pages/adminPages/AdminServiceProviders")
@@ -40,7 +40,9 @@ const AdminServiceProviders = lazy(
 const EventPlan = lazy(() => import("./pages/organizerPages/EventPlan"));
 const UnAuth = lazy(() => import("./pages/UnAuth"));
 const Choice = lazy(() => import("./pages/auth/Choice"));
-const CompleteProfileEventGoer = lazy(() => import("./pages/auth/CompleteProfileEventGoer"));
+const CompleteProfileEventGoer = lazy(
+  () => import("./pages/auth/CompleteProfileEventGoer")
+);
 const Recommendations = lazy(() => import("./pages/userPages/Recommendations"));
 const EventDetails = lazy(() => import("./pages/userPages/EventDetails"));
 function App() {
@@ -104,9 +106,8 @@ function App() {
               />
               <Route
                 path="/auth/become-partner"
-                element={<ServiceProviderOnboarding />}
+                element={<ServiceProviderOnboardingFirst />}
               />
-          
             </Route>
 
             {/* Service Provider Onboarding (Organized alongside Auth, Protected for Authenticated USER) */}
@@ -147,7 +148,7 @@ function App() {
               <Route path="partner-pending" element={<PartnerStatus />} />
               <Route
                 path="become-partner"
-                element={<ServiceProviderOnboarding />}
+                element={<ServiceProviderOnboardingInside />}
               />
             </Route>
 
